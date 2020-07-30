@@ -2,12 +2,26 @@ const express = require('express');
 const router = express.Router();
 
 const UserService = require('../services/user_service');
-const { users } = require('../models/in_memo/user');
+// const { users } = require('../models/in_memo/user');
+
+// router.get('/', (req, res) => {
+//   const user = UserService.getAllUsers();
+//   res.locals.users = users;
+//   res.render('user');
+// })
 
 router.get('/', (req, res) => {
-  const user = UserService.getAllUsers();
-  res.locals.users = users;
-  res.render('user');
+  (async () => {
+    const users = await UserService.getAllUsers();
+    res.locals.users = users;
+    res.render('user');
+  })()
+    .then((r) => {
+      console.log(r);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
 })
 
 router.post('/', (req, res) => {
